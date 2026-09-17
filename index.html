@@ -84,6 +84,11 @@ a{color:inherit}
 .network-card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:19px;min-height:188px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:.2s}
 .network-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 .network-top{display:flex;align-items:center;gap:11px}
+
+.network-logo img,.big-logo img{width:52%;height:52%;object-fit:contain;display:block}
+.big-logo img{width:58%;height:58%}
+.network-pill{display:inline-flex;align-items:center;gap:6px}
+.network-pill img{width:14px;height:14px;object-fit:contain}
 .network-logo{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;font-weight:900;font-size:18px}
 .network-card h3{margin:17px 0 4px;color:var(--navy);font-size:17px}
 .network-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
@@ -415,9 +420,15 @@ function renderStats(){
 }
 
 function networkIcon(id,big=false){
-  const c=NETWORK_COLORS[id]||"#123F78";
-  const label={tiktok:"♪",instagram:"◎",facebook:"f",youtube:"▶",linkedin:"in"}[id]||"•";
-  return `<div class="${big?"big-logo":"network-logo"}" style="background:${c}">${label}</div>`;
+  const icons={
+    tiktok:{src:"https://cdn.simpleicons.org/tiktok/000000",alt:"TikTok"},
+    instagram:{src:"https://cdn.simpleicons.org/instagram/E4405F",alt:"Instagram"},
+    facebook:{src:"https://cdn.simpleicons.org/facebook/1877F2",alt:"Facebook"},
+    youtube:{src:"https://cdn.simpleicons.org/youtube/FF0000",alt:"YouTube"},
+    linkedin:{src:"https://cdn.simpleicons.org/linkedin/0A66C2",alt:"LinkedIn"}
+  };
+  const icon=icons[id]||{src:"",alt:"Red social"};
+  return `<div class="${big?"big-logo":"network-logo"}"><img src="${icon.src}" alt="${icon.alt}" loading="lazy"></div>`;
 }
 
 function renderNetworks(){
@@ -472,7 +483,7 @@ function clientCards(list){
       <div class="client-emblem"><img src="${LOGO}" alt=""></div>
       <div class="client-info">
         <h3>${c.name}</h3><p>${c.niche}</p>
-        <div class="client-meta">${c.networks.map(n=>`<span class="pill">${NETWORK_LABELS[n]}</span>`).join("")}${c.podcast?`<span class="pill green">${c.podcast}</span>`:""}</div>
+        <div class="client-meta">${c.networks.map(n=>`<span class="pill network-pill"><img src="https://cdn.simpleicons.org/${n}/${({tiktok:"000000",instagram:"E4405F",facebook:"1877F2",youtube:"FF0000",linkedin:"0A66C2"}[n]||"123F78")}" alt="${NETWORK_LABELS[n]}" loading="lazy">${NETWORK_LABELS[n]}</span>`).join("")}${c.podcast?`<span class="pill green">${c.podcast}</span>`:""}</div>
       </div>
       <div class="client-arrow">→</div>
     </article>`).join("");
